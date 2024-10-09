@@ -3,8 +3,17 @@ class StringCalculator {
     if (!numbers) {
       return 0;
     }
-    const normalizedNumbers = numbers.replace(/\n/g, ",");
-    const nums = normalizedNumbers.split(",").map((num) => parseInt(num));
+    let delimiter = ",";
+    let numbersToProcess = numbers;
+
+    if (numbers.startsWith("//")) {
+      const firstNewLine = numbers.indexOf("\n");
+      delimiter = numbers.substring(2, firstNewLine);
+      numbersToProcess = numbers.substring(firstNewLine + 1);
+    }
+
+    const normalizedNumbers = numbersToProcess.replace(/\n/g, delimiter);
+    const nums = normalizedNumbers.split(delimiter).map((num) => parseInt(num));
     return nums.reduce((sum, num) => sum + num, 0);
   }
 }
